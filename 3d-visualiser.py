@@ -5,18 +5,22 @@ import math
 
 
 data =[[5,5,4,4,3,3,3,2,2,1,1,5,3,2,1], [1,3,1,3,1,2,3,1,3,1,3,5,5,5,5], [1,0,2,5,4,2,4,1,3,4,2,1,3,4,2]]
-
+'ererer'
 class Data:
-    ''' Contains: X, Y, and Z coordinates lists. '''
+    ''' Contains: Data lists for x, y, and z. '''
     def __init__(self, x: list, y: list, z: list):
         self.x = x
-        ''' List of x coordinates. ''' 
+        ''' List of x coordinate integers. ''' 
         self.y = y 
-        ''' List of y coordinates. '''
+        ''' List of y coordinate integers. '''
         self.z = z
-        ''' List of z coordinates. '''
-        self.length = len(x)
-        ''' Number of data points. '''
+        ''' List of z coordinate integers. '''
+    def get_length(self):
+        ''' Returns: Maxinum length of x, y, and z. '''
+        return max(len(self.x), len(self.y), len(self.z))
+    def get_data(self):
+        ''' Returns: List of lists of x, y, and z. '''
+        return [self.x, self.y, self.z]
     def __str__(self):
         return f"{str(self.__class__)}: {str(self.__dict__)}"
 
@@ -28,9 +32,9 @@ def circle_rotation(Coords: Data, rotation: int, horizontal: True):
     sin = math.sin(radians)
     x = Coords.x if horizontal else Coords.y # Vertical
     y = Coords.z
-    for index in range(Coords.length):
-        rotated_x = x[index] * cos - y[index] * sin
-        rotated_y = y[index] * cos + x[index] * sin
+    for index in range(Coords.get_length()):
+        rotated_x = round(x[index] * cos - y[index] * sin)
+        rotated_y = round(y[index] * cos + x[index] * sin)
         if horizontal:
             Coords.x[index] = rotated_x
         else:
@@ -57,14 +61,17 @@ if __name__ == '__main__':
             size=12,
             opacity=0.8
         ))])
-    # camera = dict(
-    #     eye=dict(x=4, y=4, z=20)
-    # )
-    # fig.update_layout(
-    #     scene_camera=camera
-    # )
+    camera = dict(
+        eye=dict(x=0, y=0, z=-22)
+    )
+    fig.update_layout(
+        scene_camera=camera
+    )
     fig.update_scenes(
+        camera_projection_type="orthographic",
         xaxis_visible=False,
         yaxis_visible=False,
-        zaxis_visible=False )
+        zaxis_visible=False 
+    )
+    
     fig.show()
