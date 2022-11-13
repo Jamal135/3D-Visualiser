@@ -3,9 +3,9 @@
 import plotly.graph_objects as go
 import math
 
-
 data =[[5,5,4,4,3,3,3,2,2,1,1,5,3,2,1], [1,3,1,3,1,2,3,1,3,1,3,5,5,5,5], [1,0,2,5,4,2,4,1,3,4,2,1,3,4,2]]
-'ererer'
+data =[[1, 3, 1, 3, 1, 2, 1, 3, 1, 3, 5, 7, 5, 7, 5, 6, 7, 5, 7, 5, 6, 7], [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+
 class Data:
     ''' Contains: Data lists for x, y, and z. '''
     def __init__(self, x: list, y: list, z: list):
@@ -50,8 +50,10 @@ def spherical_rotation(Coords: Data, x_rotation: int, y_rotation: int):
 
 
 if __name__ == '__main__':
+    x_rotation = 0
+    y_rotation = 0
     Coords = Data(data[0], data[1], data[2])
-    Coords = spherical_rotation(Coords, 0, 0)
+    Coords = spherical_rotation(Coords, x_rotation, y_rotation)
     fig = go.Figure(data=[go.Scatter3d(
         x=Coords.x,
         y=Coords.y,
@@ -61,8 +63,10 @@ if __name__ == '__main__':
             size=12,
             opacity=0.8
         ))])
+    Eye = Data([0], [0], [-22])
+    Eye = spherical_rotation(Eye, x_rotation, y_rotation)
     camera = dict(
-        eye=dict(x=0, y=0, z=-22)
+        eye=dict(x=Eye.x[0], y=Eye.y[0], z=Eye.z[0])
     )
     fig.update_layout(
         scene_camera=camera
